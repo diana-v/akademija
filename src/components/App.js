@@ -1,34 +1,20 @@
 import React from 'react';
 import Card from './Card';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { endpoints, getImageUrl } from '../../config';
+import { setMovieList } from '../actions';
+import { getMovieList } from '../thunks';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     
-    this.state = {
-      movieList: [],
-    };
-    
-    this.getMovies();
+    props.onGetMovieList();
   }
   
-  getMovies = () => {
-    axios
-      .get(endpoints.mostPopularMovies())
-      .then((res) => this.setMovieList(res.data.results))
-      .catch((error) => console.log(error));
-  };
-  
-  setMovieList = (list) => {
-    this.setState({
-      movieList: list,
-    });
-  };
-  
   render() {
-    const { movieList } = this.state;
+    const { movieList } = this.props;
     
     return (
       <div>
@@ -47,4 +33,15 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  movieList: state.movies.list,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetMovieList: () => dispatch(getMovieList()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
