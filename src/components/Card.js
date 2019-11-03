@@ -16,7 +16,7 @@ export default class Card extends React.Component {
   
   render() {
     const { showDescription } = this.state;
-    const { title, backgroundImage, date, rating, votes, description } = this.props;
+    const { title, backgroundImage, date, rating, votes, description, genres, liked, likeChange, movie_id } = this.props;
     return (
       <div className="card">
           <div
@@ -37,10 +37,17 @@ export default class Card extends React.Component {
               <span>{date}</span>
               <span>{rating} ({votes} votes)</span>
           </div>
+
+          <div className="card__subtitle">
+              <span>{genres}</span>
+          </div>
       
           <div className="card-info">
             <div className="card-info__header">Summary</div>
             <button onClick={() => { this.setState({ showDescription: !showDescription })}}>Toggle</button>
+            
+            <button onClick={() => {likeChange(movie_id)}}>{liked ? "Dislike" : "Like"}</button>
+            
             <div className="card-info__description">
               {showDescription ? description : null}
             </div>

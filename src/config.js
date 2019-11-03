@@ -9,3 +9,15 @@ export const endpoints = {
 };
 
 export const getImageUrl = (path) => `${imageUrl}${path}`;
+
+export const getGenres = (genres, genreList) => {
+  var text = "";
+  for (var i=0; i<genres.length; i++) {
+      for (var j=0; j<genreList.length; j++) {
+        if (genreList[j].id === genres[i]) {
+          text+= `${genreList[j].name} `;
+        }
+      }
+  }
+  return text;
+};
